@@ -3,14 +3,21 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 8000
 
-import targets from './routes/targets.route.js'
+import user from './routes/users.route.js'
+import event from './routes/events.route.js'
+
 
 const app = express();
 app.use(express.json());
 
-app.use('/targets',targets)
+app.get('/',(req,res) => {
+  res.send("hello from test four")
+})
+
+app.use('/user',user)
+app.use('/creator',event)
 
 
 
