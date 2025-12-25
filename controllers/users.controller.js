@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const __dirname = path.resolve();
-const USERS_PATH =  path.join(__dirname, "data", "users.json");
+const USERS_PATH = path.join(__dirname, "data", "users.json");
 const EVENTS_PATH = path.join(__dirname, "data", "events.json");
 const RECEIPTS_PATH = path.join(__dirname, "data", "receipts.json");
 
@@ -23,9 +23,8 @@ export const createUser = async (req, res) => {
       if (userDB != undefined) res.status(400).send("User Already Exists");
       else {
         if (req.body.role) {
-          user.role = req.body.role
-        }
-        else user.role = "user"
+          user.role = req.body.role;
+        } else user.role = "user";
         data.push(user);
         fs.writeFile(USERS_PATH, JSON.stringify(data));
         res.json({ massage: "user saved successfuly" });
@@ -51,7 +50,7 @@ export const buyTickets = async (req, res) => {
           );
           if (event === undefined) res.status(404).send("event not found");
           else {
-            if (event.ticketsAvailible - quantity < 0)
+            if (event.ticketsAvailable - quantity < 0)
               res.status(400).send("Not Enough Tickets");
             else {
               const receipt = { username, eventName, ticketsBought: quantity };
@@ -64,7 +63,7 @@ export const buyTickets = async (req, res) => {
                   const idx = data.findIndex(
                     (ev) => ev.eventName === eventName
                   );
-                  data[idx].ticketsAvailible -= quantity;
+                  data[idx].ticketsAvailable -= quantity;
                   fs.writeFile(EVENTS_PATH, JSON.stringify(data));
                 });
                 res.json({ message: "Your Order Has Recievd" });
@@ -80,9 +79,9 @@ export const buyTickets = async (req, res) => {
 export const userSammary = (req, res) => {
   const { username } = req.params;
   fs.readFile(USERS_PATH)
-  .then((data) => {
-    data = JSON.parse(data);
-    console.log(data);
+    .then((data) => {
+      data = JSON.parse(data);
+      console.log(data);
       const user = data.find((user) => user.username === username);
       console.log(user);
       if (user === undefined) res.status(404).send("User Not Found");
@@ -106,10 +105,10 @@ export const userSammary = (req, res) => {
             });
             const sammary = {
               totalTicketsBought: sum,
-              events:eventsNames,
+              events: eventsNames,
               averageTicketsPerEvent: avgTickets,
             };
-            res.json({massage:sammary})
+            res.json({ massage: sammary });
           }
         });
       }
