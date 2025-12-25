@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const PORT = process.env.PORT || 8000
-
+ 
 import user from './routes/users.route.js'
 import event from './routes/events.route.js'
 

@@ -5,10 +5,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const __dirname = path.resolve();
-const USERS_PATH =
-  process.env.USERS_PATH || path.join(__dirname, "data", "users.json");
-const EVENTS_PATH =
-  process.env.EVENTS_PATH || path.join(__dirname, "data", "events.json");
+const USERS_PATH = path.join(__dirname, "data", "users.json");
+const EVENTS_PATH = path.join(__dirname, "data", "events.json");
 
 export const createEvent = async (req, res) => {
   const { eventName, ticketsForSale, username, password } = req.body;
