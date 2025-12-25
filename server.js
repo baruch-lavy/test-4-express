@@ -16,7 +16,7 @@ app.get('/',(req,res) => {
   res.send("hello from test four")
 })
 
-app.use('/user',user)
+app.use('/user',user) 
 app.use('/creator',event)
 
 

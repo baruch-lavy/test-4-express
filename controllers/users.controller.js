@@ -22,6 +22,10 @@ export const createUser = async (req, res) => {
       const userDB = data.find((user) => user.username === username);
       if (userDB != undefined) res.status(400).send("User Already Exists");
       else {
+        if (req.body.role) {
+          user.role = req.body.role
+        }
+        else user.role = "user"
         data.push(user);
         fs.writeFile(USERS_PATH, JSON.stringify(data));
         res.json({ massage: "user saved successfuly" });
@@ -38,7 +42,6 @@ export const buyTickets = async (req, res) => {
       const userDB = data.find(
         (user) => user.username === username && user.password === password
       );
-      console.log(userDB);
       if (userDB === undefined) res.status(400).send("User Not Found");
       else {
         fs.readFile(EVENTS_PATH).then((data) => {

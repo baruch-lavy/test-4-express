@@ -18,14 +18,21 @@ export const createEvent = async (req, res) => {
       );
       if (userDB === undefined) res.status(400).send("User not found");
       else {
-        fs.readFile(EVENTS_PATH).then((data) => {
-          data = JSON.parse(data) || [];
-          const event = { eventName, ticketsAvailable:ticketsForSale, createdBy:username };
-          data.push(event);
-          fs.writeFile(EVENTS_PATH, JSON.stringify(data));
-          res.json({ massage: "event saved successfuly" });
-        });
+        if (userDB.role !== "user") res.send("Only user can create events");
+        else {
+          fs.readFile(EVENTS_PATH).then((data) => {
+            data = JSON.parse(data) || [];
+            const event = {
+              eventName,
+              ticketsAvailable: ticketsForSale,
+              createdBy: username,
+            };
+            data.push(event);
+            fs.writeFile(EVENTS_PATH, JSON.stringify(data));
+            res.json({ massage: "event saved successfuly" });
+          });
+        }
       }
     })
-    .catch((err) => res.status(400).send("cannnot register user", err));
+    .catch((err) => res.status(400).send("cannnot create event", err));
 };
